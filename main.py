@@ -13,8 +13,10 @@ def train():
 
     spamDic = {}
     spamCount = 0
+    spamFileCount = 0
     hamDic = {}
     hamCount = 0
+    hamFileCount = 0
     fileDir = 'train_Lemmatized'
     fileNameList = os.listdir(fileDir)
     isSpam = False
@@ -26,6 +28,9 @@ def train():
 #       if name starts with spm
         if 'spm' in file:
             isSpam = True
+            spamFileCount += 1
+        else:
+            hamFileCount += 1
 
         fileName = fileDir + '\\' + file
 
@@ -35,8 +40,8 @@ def train():
 #       read file
         readFile = inFile.read()
         inFile.close()
-
-        readFileList = readFile.split(' ')
+        temp = readFile.strip()
+        readFileList = temp.split(' ')
 #           for each instance of word
         for word in readFileList:
             if isSpam is True:
@@ -58,11 +63,24 @@ def train():
                     hamDic[word] += 1
     print(spamCount)
     print(hamCount)
-    print(spamDic["summer"])
 
+    spamPValueFile = open('probability_spam_words.txt', 'w')
+    spamPValueFile.write(format(spamCount))
+    spamPValueFile.write("\n")
+    spamValue = spamFileCount / (spamFileCount + hamFileCount)
+    spamPValueFile.write(format(spamValue))
+    spamPValueFile.write("\n")
+
+#   for file format, convert into Json for best results
 #   for each instance of spam
+    for spamWord in spamDic.items():
+        wordCount = spamWord[1]
 #       calculate P
-#       save to dictionary
+        pValue = wordCount / spamCount
+#       save to file
+        tempString = format(spamWord[0]) + " " + format(pValue)
+        spamPValueFile.write(tempString + "\n")
+    spamPValueFile.close()
 #   for each instance of ham
 #       calculate P
 #       save to dictionary
