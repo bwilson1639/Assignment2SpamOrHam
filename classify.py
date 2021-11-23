@@ -41,7 +41,6 @@ def classify(importFileString, exportFileString):
 
     for word in hamProbabilityString:
         tempWord = word.split()
-        print(tempWord)
         if len(tempWord) <= 1:
             continue
         hamProbabilityDic[tempWord[0]] = tempWord[1]
