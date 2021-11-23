@@ -38,7 +38,7 @@ def classify(importFileString, exportFileString):
     spamProbabilityDic = {}
 
     hamProbabilityString = hamProbabilityString.split("\n")
-    print(hamProbabilityString)
+
     for word in hamProbabilityString:
         tempWord = word.split()
         print(tempWord)
@@ -88,8 +88,8 @@ def classify(importFileString, exportFileString):
         outputFile.write(tempString)
 #   check to see if word is in spam testing dictionary
         if index[0] in spamProbabilityDic:
-            spamPTotal += math.log10(index[1])
-            tempString = format(index[1]) + "\n"
+            spamPTotal += math.log10(float(spamProbabilityDic[index[0]]))
+            tempString = format(spamProbabilityDic[index[0]]) + "\n"
             outputFile.write(tempString)
         else:
             baseP = 1 / spamTotalWords
@@ -112,8 +112,8 @@ def classify(importFileString, exportFileString):
 
 #   check to see if word is in ham testing dictionary
         if index[0] in hamProbabilityDic:
-            hamPTotal += math.log10(index[1])
-            tempString = format(index[1]) + "\n"
+            hamPTotal += math.log10(float(hamProbabilityDic[index[0]]))
+            tempString = format(hamProbabilityDic[index[0]]) + "\n"
             outputFile.write(tempString)
         else:
             baseP = 1 / hamTotalWords
