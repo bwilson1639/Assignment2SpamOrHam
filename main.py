@@ -10,7 +10,7 @@ import os
     #     fileDir = "C:\Users\Benjamin\PycharmProjects\Assignment2SpamOrHam\train_Lemmatized"
 
 def train():
-
+    'takes in files and trains the algorithm'
     spamDic = {}
     spamCount = 0
     spamFileCount = 0

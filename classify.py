@@ -2,8 +2,9 @@
 import sys
 import math
 
-def classify(importFileString, exportFileString):
 
+def classify(importFileString, exportFileString):
+    'gets input data from training and exports a file detailing if spam or ham'
     wordDic = {}
 #get data from text file
     hamProbabilityFile = open('probability_ham_words.txt')
