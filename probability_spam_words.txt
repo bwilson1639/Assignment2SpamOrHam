@@ -1,3 +1,4 @@
+formatted as follows:total number of words in spam, Pspam, then word_probability.
 23585
 0.15
 Subject: 0.0016535933856264575

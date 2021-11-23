@@ -75,27 +75,66 @@ def classify(importFileString, exportFileString):
     spamPTotal = spamTrainingP
     hamPTotal = hamTrainingP
 
+    outputFile = open(exportFileString, 'w')
+
+# ==================================================================================
+    outputFile.write("(1) P(Spam, all words)\n")
+    tempString = "    P(Spam)=" + format(spamTrainingP) +"\n"
+    outputFile.write(tempString)
+
     for index in wordDic.items():
 
+        tempString = "    P('" + format(index[0]) + "'|Spam)="
+        outputFile.write(tempString)
 #   check to see if word is in spam testing dictionary
         if index[0] in spamProbabilityDic:
             spamPTotal += math.log10(index[1])
+            tempString = format(index[1]) + "\n"
+            outputFile.write(tempString)
         else:
-            spamPTotal += math.log10(1/ spamTotalWords)
+            baseP = 1 / spamTotalWords
+            spamPTotal += math.log10(baseP)
+            tempString = format(baseP) + "\n"
+            outputFile.write(tempString)
 #       if it is then add it's probability to the total spam probablility
+
+    tempString = "    LogP(Spam, all words) =" + format(spamPTotal) +"\n"
+    outputFile.write(tempString)
+#==================================================================================
+    outputFile.write("(2) P(Ham, all words)\n")
+    tempString = "    P(Ham)=" + format(hamTrainingP) + "\n"
+    outputFile.write(tempString)
+
+    for index in wordDic.items():
+
+        tempString = "    P('" + format(index[0]) + "'|Ham)="
+        outputFile.write(tempString)
 
 #   check to see if word is in ham testing dictionary
         if index[0] in hamProbabilityDic:
             hamPTotal += math.log10(index[1])
+            tempString = format(index[1]) + "\n"
+            outputFile.write(tempString)
         else:
-            hamPTotal += math.log10(1/ hamTotalWords)
-#       if it is then add it's probability to hte total ham probabability
+            baseP = 1 / hamTotalWords
+            hamPTotal += math.log10(baseP)
+            tempString = format(baseP) + "\n"
+            outputFile.write(tempString)
+#       if it is then add it's probability to hte total ham probability
+    tempString = "    LogP(Ham, all words) =" + format(hamPTotal) + "\n"
+    outputFile.write(tempString)
+# ==================================================================================
 
+    outputFile.write("\n")
 #   if the total spam probability is greater than total ham probability
     if spamPTotal > hamPTotal:
 #       the file is spam
-        print("is Spam")
+        outputFile.write("Conclusion: the message is Spam")
+    else:
 
+        outputFile.write("Conclusion: the message is not Spam")
+    outputFile.close()
+#==================================================================================
 importFile = sys.argv[1]
 exportFile = sys.argv[2]
 
