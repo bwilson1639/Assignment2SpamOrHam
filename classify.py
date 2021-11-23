@@ -8,15 +8,28 @@ def classify(importFileString, exportFileString):
 #get data from text file
     hamProbabilityFile = open('probability_ham_words.txt')
     hamProbabilityFile.readline()
+
     hamTotalWords = hamProbabilityFile.readline()
+    hamTotalWords = hamTotalWords.strip()
+    hamTotalWords = float(hamTotalWords)
+
     hamTrainingP = hamProbabilityFile.readline()
+    hamTrainingP = hamTrainingP.strip()
+    hamTrainingP = float(hamTrainingP)
     hamProbabilityString = hamProbabilityFile.read()
     hamProbabilityFile.close()
 
     spamProbabilityFile = open('probability_spam_words.txt')
     spamProbabilityFile.readline()
+
     spamTotalWords = spamProbabilityFile.readline()
+    spamTotalWords = spamTotalWords.strip()
+    spamTotalWords = float(spamTotalWords)
+
     spamTrainingP = spamProbabilityFile.readline()
+    spamTrainingP = spamTrainingP.strip()
+    spamTrainingP = float(spamTrainingP)
+
     spamProbabilityString = spamProbabilityFile.read()
     spamProbabilityFile.close()
 
@@ -59,8 +72,8 @@ def classify(importFileString, exportFileString):
 
         else:
             wordDic[word] += 1
-    spamPTotal = 0
-    hamPTotal = 0
+    spamPTotal = spamTrainingP
+    hamPTotal = hamTrainingP
 
     for index in wordDic.items():
 
@@ -68,14 +81,14 @@ def classify(importFileString, exportFileString):
         if index[0] in spamProbabilityDic:
             spamPTotal += math.log10(index[1])
         else:
-            spamPTotal += math.log10(1/ int(spamTotalWords))
+            spamPTotal += math.log10(1/ spamTotalWords)
 #       if it is then add it's probability to the total spam probablility
 
 #   check to see if word is in ham testing dictionary
         if index[0] in hamProbabilityDic:
             hamPTotal += math.log10(index[1])
         else:
-            hamPTotal += math.log10(1/ int(hamTotalWords))
+            hamPTotal += math.log10(1/ hamTotalWords)
 #       if it is then add it's probability to hte total ham probabability
 
 #   if the total spam probability is greater than total ham probability
