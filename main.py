@@ -68,6 +68,8 @@ def train():
 
 
     spamPValueFile = open('probability_spam_words.txt', 'w')
+    spamPValueFile.write("formatted as follows:total number of words in spam, Pspam, then word_probability.")
+    spamPValueFile.write("\n")
     spamPValueFile.write(format(spamCount))
     spamPValueFile.write("\n")
     spamValue = spamFileCount / (spamFileCount + hamFileCount)
@@ -86,6 +88,8 @@ def train():
     spamPValueFile.close()
 
     hamPValueFile = open('probability_ham_words.txt', 'w')
+    hamPValueFile.write("formatted as follows:total number of words in ham, Pham, then word_probability.")
+    hamPValueFile.write("\n")
     hamPValueFile.write(format(hamCount))
     hamPValueFile.write("\n")
     hamValue = hamFileCount / (hamFileCount + spamFileCount)
