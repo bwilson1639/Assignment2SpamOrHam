@@ -40,10 +40,14 @@ def train():
 #       read file
         readFile = inFile.read()
         inFile.close()
-        temp = readFile.strip()
-        readFileList = temp.split(' ')
+        readFile = readFile.strip()
+        readFile = readFile.replace('\n', ' ')
+        readFile = readFile.strip()
+        readFileList = readFile.split(' ')
+
 #           for each instance of word
         for word in readFileList:
+
             if isSpam is True:
 
                 spamCount += 1
@@ -61,8 +65,7 @@ def train():
 
                 else:
                     hamDic[word] += 1
-    print(spamCount)
-    print(hamCount)
+
 
     spamPValueFile = open('probability_spam_words.txt', 'w')
     spamPValueFile.write(format(spamCount))
@@ -81,11 +84,28 @@ def train():
         tempString = format(spamWord[0]) + " " + format(pValue)
         spamPValueFile.write(tempString + "\n")
     spamPValueFile.close()
+
+    hamPValueFile = open('probability_ham_words.txt', 'w')
+    hamPValueFile.write(format(hamCount))
+    hamPValueFile.write("\n")
+    hamValue = hamFileCount / (hamFileCount + spamFileCount)
+    hamPValueFile.write(format(hamValue))
+    hamPValueFile.write("\n")
+
 #   for each instance of ham
+    print(hamDic.items())
+    errorBuffer = 6
+    for hamWord in hamDic.items():
+        if errorBuffer > 0:
+            errorBuffer -= 1
+            continue
+        wordCount = hamWord[1]
 #       calculate P
-#       save to dictionary
-#   create 'probability_spam_words.txt'
-#   crate 'probability_ham_words.txt'
+        pValue = wordCount / hamCount
+#       save to file
+        tempString = format(hamWord[0]) + " " + format(pValue)
+        hamPValueFile.write(tempString + "\n")
+    hamPValueFile.close()
 #   for each word in dictionary
 #       save to .txt file
 
